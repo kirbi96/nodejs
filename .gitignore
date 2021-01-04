@@ -2,6 +2,7 @@
 
 # dependencies backend
 /node_modules
+/.idea
 
 # dependencies
 /client/node_modules
