@@ -31,7 +31,7 @@ router.post(
             }
 
             const hashedPassword = await bcrypt.hash(password, 12)
-            const user = new User({email, password: hashedPassword})
+            const user = new User({email, password: hashedPassword, avatar: "https://326605.selcdn.ru/03005/iblock/340/logotip-KAI.jpg"})
 
             await user.save()
 
@@ -76,9 +76,8 @@ router.post(
             const token = jwt.sign(
                 { userId: user._id },
                 config.jwtSecret,
-                {expiresIn: "2h"}
+                {expiresIn: "96h"}
             )
-            console.log(token)
 
             res.json({ token, userId: user})
 

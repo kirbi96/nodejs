@@ -10,38 +10,21 @@ const app = express()
 app.use(cors())
 app.use(bodyParser.json());
 app.use("/api/auth", require("./routes/auth.routes"))
+app.use("/api/post", require("./routes/post.routes"))
 
 const start = async () =>{
     try {
-        await mongoose.connect(config.get("mongoUri") ,
+        await mongoose.connect("mongodb+srv://admin:123123123@cluster0.xvejc.mongodb.net/app?retryWrites=true&w=majority" ,
             {
                 useNewUrlParser: true,
+                useUnifiedTopology: true,
+                useCreateIndex: true,
             })
         app.listen(PORT, () => console.log("server port " + PORT))
     } catch (e) {
-
+        console.log(e)
     }
 }
 
 start()
-
-
-// const UserSchema = new mongoose.Schema({
-//     name: {
-//         type: String,
-//         required: true,
-//     },
-//     email: {
-//         type: String,
-//         required: true,
-//     },
-// })
-//
-// const Users = mongoose.model("Users", UserSchema)
-//
-// app.get("/users", (req, res) => {
-// Users.find()
-//     .then(users => res.send(users))
-//     .catch(err => res.send(err))
-// })
 

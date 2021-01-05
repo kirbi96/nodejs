@@ -13,7 +13,9 @@ function App() {
       }}>
           <BrowserRouter>
               <div className="d-flex justify-content-center">
-                  {routes}
+                  <div className="col-9">
+                      {routes}
+                  </div>
               </div>
           </BrowserRouter>
       </AuthContext.Provider>
