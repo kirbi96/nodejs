@@ -1,11 +1,10 @@
 const {Schema, model} = require("mongoose")
 
 const schema = new Schema ({
-    message: {type: String},
-    author: {type: String},
-    avatar: {type: String},
     name: {type: String},
+    des: {type: String},
+    avatar: {type: String},
     tag: {type: String},
 })
 
-module.exports = model("Post", schema)
+module.exports = model("Community", schema)

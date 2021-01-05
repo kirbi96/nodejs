@@ -17,6 +17,7 @@ export const useAuth = () =>{
         setUserId(null)
 
         localStorage.removeItem(storageName)
+        window.location.reload()
     }, [])
 
     useEffect(() =>{

@@ -1,0 +1,147 @@
+import {Api} from "../../../utils/api.hook";
+import {useEffect, useState} from "react";
+import Select from "react-select";
+import makeAnimated from 'react-select/animated';
+
+
+const Community = () =>{
+    const animatedComponents = makeAnimated();
+    const [newPublic, setNewPublic] = useState(false)
+    const [community, setCommunity] = useState([])
+    const [tags, setTags] = useState([])
+    const [form, setForm] = useState({
+        name: "",
+        des: "",
+        tag: "",
+        avatar: "https://326605.selcdn.ru/03005/iblock/340/logotip-KAI.jpg",
+    })
+
+    const getCommunity = () =>{
+        Api.get("api/community/").then((res) => {
+            setCommunity(res.data)
+        })
+    }
+
+    const getTags = () =>{
+        Api.get("api/tag/").then((res) => {
+            setTags(res.data)
+        })
+    }
+
+    const handleInputChange = (selectedOption) => {
+        setForm({...form, tag: selectedOption.tag})
+    };
+
+    const registerHandler = async () =>{
+        try {
+            await Api.post("api/community/create", {...form}).then((res) => {
+                setForm({
+                    name: "",
+                    des: "",
+                    avatar: "https://326605.selcdn.ru/03005/iblock/340/logotip-KAI.jpg",
+                })
+                getCommunity()
+                setNewPublic(false)
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const changeHandler = (e) =>{
+        setForm({...form, [e.target.name]: e.target.value})
+    }
+
+    useEffect(() =>{
+        getCommunity()
+        getTags()
+    },[])
+
+    return(
+        <div>
+            {newPublic ? (
+                <div className="d-flex col-12 flex-column">
+                    <div onClick={() => setNewPublic( s => !s)} className="col-4 btn btn-primary">
+                        Закрыть админ панель
+                    </div>
+                    <input
+                        placeholder="Название"
+                        style={{marginTop: 10}}
+                        value={form.name}
+                        name="name"
+                        type="text"
+                        onChange={changeHandler}
+                    />
+                    <input
+                        placeholder="Описание"
+                        style={{marginTop: 10}}
+                        value={form.des}
+                        name="des"
+                        type="text"
+                        onChange={changeHandler}
+                    />
+                    <div style={{marginTop: 10}}>
+                        <Select
+                            closeMenuOnSelect={false}
+                            onSelectResetsInput={false}
+                            onBlurResetsInput={false}
+                            components={animatedComponents}
+                            onChange={handleInputChange}
+                            // isMulti при желании множественный выбор
+                            options={tags}
+                        />
+                    </div>
+
+                    {/*<input*/}
+                    {/*    placeholder="Тэг"*/}
+                    {/*    style={{marginTop: 10}}*/}
+                    {/*    value={form.tag}*/}
+                    {/*    name="tag"*/}
+                    {/*    type="text"*/}
+                    {/*    onChange={changeHandler}*/}
+                    {/*/>*/}
+                    <button
+                        onClick={registerHandler}
+                        className="btn btn-primary mt-3"
+                    >
+                        Создать сообщество
+                    </button>
+                </div>
+
+            ) : (
+                <div onClick={() => setNewPublic( s => !s)} className="btn btn-primary">
+                    {/*{newPublic ? "Закрыть админ панель" : "Создать сообщество"}*/}
+                    Создать сообщество
+                </div>
+            )}
+            {community && community.map( (community, index) => (
+                <div key={index} className="col-12 mt-4" style={{border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: 10, padding: 20}}>
+                    <div className="d-flex justify-content-between mt-2">
+                        <div className="d-flex">
+                            <img
+                                style={{width: 80, height: 80, borderRadius: 20}}
+                                src={community.avatar}
+                            />
+                            <div className="ml-4">
+                                <div className="h6">{community.name}</div>
+                                <div style={{fontSize: 14, color: "gray"}}>
+                                    {community.des}
+                                </div>
+                                <div className="d-flex mt-2">
+                                    <div className="ml-1" style={{fontSize: 10, color: "white", backgroundColor: "blue", borderRadius: 10, padding: 5}}>
+                                        {community.tag}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button className="btn badge-dark mr-1">Просмотреть</button>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    )
+}
+
+export default Community

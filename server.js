@@ -11,6 +11,10 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use("/api/auth", require("./routes/auth.routes"))
 app.use("/api/post", require("./routes/post.routes"))
+app.use("/api/community", require("./routes/community.routes"))
+
+//admin
+app.use("/api/tag", require("./routes/tag.routes"))
 
 const start = async () =>{
     try {

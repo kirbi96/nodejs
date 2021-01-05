@@ -1,5 +1,4 @@
 const {Router} = require("express")
-const config = require("../config/default.json")
 const {check, validationResult} = require("express-validator")
 const Post = require("../models/Post")
 const router = Router()
@@ -52,9 +51,9 @@ router.post(
                 })
             }
 
-            const {message, author, avatar} = req.body
+            const {message, author, avatar, tag, name} = req.body
 
-            const post = new Post({message, author, avatar})
+            const post = new Post({message, author, avatar, tag, name})
 
             await post.save()
 
