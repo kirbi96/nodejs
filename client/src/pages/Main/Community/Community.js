@@ -5,7 +5,7 @@ import {useAuth} from "../../../utils/auth.hook";
 
 
 const Community = () =>{
-    const {refresh, userId} = useAuth()
+    const {token, refresh, userId} = useAuth()
     const [newPublic, setNewPublic] = useState(false)
     const [community, setCommunity] = useState([])
     const [tags, setTags] = useState([])
@@ -28,9 +28,15 @@ const Community = () =>{
         })
     }
 
-    const subscribe = (id, isSub) =>{
-        Api.post("api/community/subscribe", {communityId: id, userId: userId?._id, isSub}).then((res) => {
-            refresh()
+    const getProfile = () =>{
+        Api.post("api/profile/", {userId: userId?._id}).then((res) => {
+            refresh(token,res.data)
+        })
+    }
+
+    const subscribe = (id, name, isSub) =>{
+        Api.post("api/community/subscribe", {communityId: id, communityName: name, userId: userId?._id, isSub}).then((res) => {
+            getProfile()
         })
     }
 
@@ -141,11 +147,11 @@ const Community = () =>{
                         </div>
                         <div>
                             {userId?.communityId?.find(item => item === community._id) ? (
-                                <button onClick={() => subscribe(community._id, false)} className="btn badge-dark mr-1">
+                                <button onClick={() => subscribe(community._id, community.tag, false)} className="btn badge-dark mr-1">
                                     Отписаться
                                 </button>
                             ):(
-                                <button onClick={() => subscribe(community._id, true)} className="btn badge-dark mr-1">
+                                <button onClick={() => subscribe(community._id, community.tag, true)} className="btn badge-dark mr-1">
                                     Подписаться
                                 </button>
                             )}

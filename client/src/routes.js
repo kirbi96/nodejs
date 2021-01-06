@@ -6,6 +6,9 @@ import Community from "./pages/Main/Community/Community";
 import Menu from "./components/Menu/Menu";
 import Admin from "./pages/Main/Admin/Admin";
 import {useAuth} from "./utils/auth.hook";
+import News from "./pages/Main/News/News";
+import PostsLine from "./pages/Main/PostsLine/PostsLine";
+import Profile from "./pages/Main/Profile/Profile";
 
 const useRoutes = isAuth =>{
     const {logout} = useAuth()
@@ -32,9 +35,12 @@ const useRoutes = isAuth =>{
                     </div>
                     <div className="col-9">
                         <Switch>
-                            <Route path="/community" component={Community}/>
-                            <Route exact path="/admin" component={Admin}/>
                             <Route exact path="/" component={Home}/>
+                            <Route path="/postsline" component={PostsLine}/>
+                            <Route path="/community" component={Community}/>
+                            <Route path="/profile" component={Profile}/>
+                            <Route path="/news" component={News}/>
+                            <Route exact path="/admin" component={Admin}/>
                             {/*<Redirect to="/"/>*/}
                         </Switch>
                     </div>

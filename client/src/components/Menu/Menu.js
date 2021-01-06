@@ -13,7 +13,7 @@ const Menu = () =>{
         <div className="d-flex flex-column">
             <NavLink exact style={styleTag} activeStyle={styleActiveTag} to="/">Главная</NavLink>
             <NavLink style={styleTag} activeStyle={styleActiveTag} className="mt-1" to="/community">Сообщества</NavLink>
-            <NavLink style={styleTag} activeStyle={styleActiveTag} className="mt-1" to="/posts">Лента</NavLink>
+            <NavLink style={styleTag} activeStyle={styleActiveTag} className="mt-1" to="/postsline">Моя лента</NavLink>
             <NavLink style={styleTag} activeStyle={styleActiveTag} className="mt-1" to="/news">Новости</NavLink>
             <NavLink style={styleTag} activeStyle={styleActiveTag} className="mt-1" to="/profile">Профиль</NavLink>
 

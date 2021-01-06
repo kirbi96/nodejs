@@ -56,15 +56,17 @@ router.post(
     "/subscribe",
     async (req, res) =>{
         try {
-            const {communityId, userId, isSub} = req.body
-
+            const {communityId, userId, communityName, isSub} = req.body
 
             User.findById(userId, async (err, user) =>{
                 if(isSub){
-                    user.communityId = [communityId].concat(user.communityId)
+                    user.communityId = [communityId].concat(user.communityId.length > 0 ? user.communityId : [])
+                    user.communityName = [communityName].concat(user.communityName.length > 0 ? user.communityName : [])
                 } else {
                     user.communityId = user.communityId.filter(item => item !== communityId)
+                    user.communityName = user.communityName.filter(item => item !== communityName)
                 }
+
                 await user.save()
                 res.status(201).json({ message: "Успешно"})
             })
