@@ -1,6 +1,7 @@
 const {Router} = require("express")
 const {check, validationResult} = require("express-validator")
 const Community = require("../models/Community")
+const User = require("../models/User")
 const router = Router()
 
 router.get(
@@ -36,7 +37,6 @@ router.post(
                     message: "Некорректные данные"
                 })
             }
-            console.log(req.body)
 
             const {name, des, tag, avatar} = req.body
 
@@ -45,6 +45,30 @@ router.post(
             await community.save()
 
             res.status(201).json({ message: "Сообщество создано"})
+
+        } catch (e) {
+            res.status(500).json({message: "Что то пошло не так"})
+        }
+    }
+)
+
+router.post(
+    "/subscribe",
+    async (req, res) =>{
+        try {
+            const {communityId, userId, isSub} = req.body
+
+
+            User.findById(userId, async (err, user) =>{
+                if(isSub){
+                    user.communityId = [communityId].concat(user.communityId)
+                } else {
+                    user.communityId = user.communityId.filter(item => item !== communityId)
+                }
+                await user.save()
+                res.status(201).json({ message: "Успешно"})
+            })
+
 
         } catch (e) {
             res.status(500).json({message: "Что то пошло не так"})

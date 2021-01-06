@@ -6,6 +6,10 @@ export const useAuth = () =>{
     const [token, setToken] = useState(null)
     const [userId, setUserId] = useState(null)
 
+    const refresh = useCallback(() =>{
+
+    }, [])
+
     const login = useCallback((jwtToken, id) =>{
         setToken(jwtToken)
         setUserId(id)
@@ -26,7 +30,7 @@ export const useAuth = () =>{
         if(data && data.token){
             login(data.token, data.userId)
         }
-    }, [login])
+    }, [login, refresh])
 
-    return {login, logout, token, userId}
+    return {login, logout, refresh, token, userId}
 }

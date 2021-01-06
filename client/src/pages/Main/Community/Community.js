@@ -1,11 +1,11 @@
 import {Api} from "../../../utils/api.hook";
 import {useEffect, useState} from "react";
 import Select from "react-select";
-import makeAnimated from 'react-select/animated';
+import {useAuth} from "../../../utils/auth.hook";
 
 
 const Community = () =>{
-    const animatedComponents = makeAnimated();
+    const {refresh, userId} = useAuth()
     const [newPublic, setNewPublic] = useState(false)
     const [community, setCommunity] = useState([])
     const [tags, setTags] = useState([])
@@ -25,6 +25,12 @@ const Community = () =>{
     const getTags = () =>{
         Api.get("api/tag/").then((res) => {
             setTags(res.data)
+        })
+    }
+
+    const subscribe = (id, isSub) =>{
+        Api.post("api/community/subscribe", {communityId: id, userId: userId?._id, isSub}).then((res) => {
+            refresh()
         })
     }
 
@@ -85,7 +91,6 @@ const Community = () =>{
                             closeMenuOnSelect={false}
                             onSelectResetsInput={false}
                             onBlurResetsInput={false}
-                            components={animatedComponents}
                             onChange={handleInputChange}
                             // isMulti при желании множественный выбор
                             options={tags}
@@ -135,7 +140,15 @@ const Community = () =>{
                             </div>
                         </div>
                         <div>
-                            <button className="btn badge-dark mr-1">Просмотреть</button>
+                            {userId?.communityId?.find(item => item === community._id) ? (
+                                <button onClick={() => subscribe(community._id, false)} className="btn badge-dark mr-1">
+                                    Отписаться
+                                </button>
+                            ):(
+                                <button onClick={() => subscribe(community._id, true)} className="btn badge-dark mr-1">
+                                    Подписаться
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>

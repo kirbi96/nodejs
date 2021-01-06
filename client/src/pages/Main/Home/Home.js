@@ -9,6 +9,8 @@ const Home = () =>{
     const auth = useContext(AuthContext)
     const [isUpdate, setIsUpdate] = useState(false)
     const [newPost, setNewPost] = useState(false)
+    const [showComments, setShowComments] = useState(false)
+    const [showWriteComments, setShowWriteComments] = useState(false)
     const [updateId, setUpdateId] = useState(null)
     const [tags, setTags] = useState([])
     const [posts, setPosts] = useState([])
@@ -17,7 +19,12 @@ const Home = () =>{
         name: "",
         tag: "",
         avatar: "https://326605.selcdn.ru/03005/iblock/340/logotip-KAI.jpg",
-        author: auth?.userId?.email ,
+        author: auth?.userId?.email,
+        // comments: {
+        //     author: auth?.userId?.email,
+        //     avatar: "https://townsquare.media/site/442/files/2020/01/avatar-10-year.jpg?w=980&q=75",
+        //     text: ""
+        // }
     })
 
     const getPosts = () =>{
@@ -44,6 +51,8 @@ const Home = () =>{
         }
     }
 
+
+    //перепилить
     const handleInputChange = (selectedOption) => {
         setForm({...form, tag: selectedOption.tag})
     };
@@ -81,6 +90,17 @@ const Home = () =>{
             console.log(e)
         }
     }
+
+    const changeCommentHandler = (e) =>{
+        const obj = {
+            text: e.target.value,
+            author: auth?.userId?.email,
+            avatar: "https://townsquare.media/site/442/files/2020/01/avatar-10-year.jpg?w=980&q=75",
+        }
+        setForm({...form, comments: obj})
+    }
+
+    console.log(form)
 
     const changeHandler = (e) =>{
         setForm({...form, [e.target.name]: e.target.value})
@@ -160,44 +180,88 @@ const Home = () =>{
             <div className="d-flex mt-3">
                 <div className="d-flex col-12 flex-column">
                     {posts && posts.map( item => (
-                        <div
-                            className="mt-2"
-                            key={item._id}
-                            style={{border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: 10, padding: 10}}
-                        >
-                            <div className="d-flex justify-content-between">
-                                <div className="d-flex">
-                                    <img style={{width: 40, height: 40, borderRadius: 20}} src={item.avatar || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8yJmOL8nb6x7NO2xuLB-Cc1qP2MRFdq24qg&usqp=CAU"}/>
-                                    <div className="ml-4">
-                                        <div className="h6">{item.name}</div>
-                                        <div style={{fontSize: 14, color: "gray"}}>
-                                            {item.message}
+                        <div key={item._id}>
+                            <div
+                                className="mt-4"
+                                style={{border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: 10, padding: 10}}
+                            >
+                                <div className="d-flex justify-content-between">
+                                    <div className="d-flex">
+                                        <img style={{width: 40, height: 40, borderRadius: 20}} src={item.avatar || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8yJmOL8nb6x7NO2xuLB-Cc1qP2MRFdq24qg&usqp=CAU"}/>
+                                        <div className="ml-4">
+                                            <div className="h6">{item.name}</div>
+                                            <div style={{fontSize: 14, color: "gray"}}>
+                                                {item.message}
+                                                {/*{item.message.substring(0, 500)} {item.message.length > 500 ? "...Читать полностью" : ""}*/}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button onClick={() => {}} className="btn badge-danger">Лайк</button>
+                                    </div>
+                                </div>
+
+                                <div className="mt-4 d-flex flex-row">
+                                    <div style={{fontSize: 12, color: "gray"}}>Автор {item.author}</div>
+                                    <div className="ml-4 d-flex">
+                                        <div className="ml-1" style={{fontSize: 12, color: "white", backgroundColor: "blue", borderRadius: 10, padding: 5}}>
+                                            {item.tag}
+                                        </div>
+                                    </div>
+                                    <div style={{marginLeft: "auto", marginRight: 0}} className="d-flex">
+                                        <div style={{cursor: "pointer"}} onClick={() => {
+                                            updatePost(item._id, item.message)
+                                            setNewPost(s => !s)
+                                        }} >
+                                            <EditSvgIcon/>
+                                        </div>
+                                        <div style={{cursor: "pointer"}} onClick={() => deletePost(item._id)} className="ml-2">
+                                            <DeleteSvgIcon/>
                                         </div>
                                     </div>
                                 </div>
-                                <div>
-                                    <button onClick={() => {}} className="btn badge-danger">Лайк</button>
-                                </div>
                             </div>
-
-                            <div className="mt-4 d-flex flex-row">
-                                <div style={{fontSize: 12, color: "gray"}}>Автор {item.author}</div>
-                                <div className="ml-4 d-flex">
-                                    <div className="ml-1" style={{fontSize: 12, color: "white", backgroundColor: "blue", borderRadius: 10, padding: 5}}>
-                                        {item.tag}
+                            <div className="ml-2">
+                                <div className="d-flex">
+                                    <div
+                                        onClick={() => setShowComments(s => !s)}
+                                        style={{fontSize: 12, color: "gray", cursor: "pointer"}}
+                                    >
+                                        {showComments ? "Скрыть комментарии" : "Показать коментарии"}
+                                    </div>
+                                    <div
+                                        className="ml-2"
+                                        onClick={() => setShowWriteComments(s => !s)}
+                                        style={{fontSize: 12, color: "gray", cursor: "pointer"}}
+                                    >
+                                        Написать коментарий
                                     </div>
                                 </div>
-                                <div style={{marginLeft: "auto", marginRight: 0}} className="d-flex">
-                                    <div style={{cursor: "pointer"}} onClick={() => {
-                                        updatePost(item._id, item.message)
-                                        setNewPost(s => !s)
-                                    }} >
-                                        <EditSvgIcon/>
+                                {showComments && (
+                                    <div className="mt-2 d-flex mb-2">
+                                        <img style={{width: 35, height: 35, borderRadius: 20}} src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8yJmOL8nb6x7NO2xuLB-Cc1qP2MRFdq24qg&usqp=CAU"}/>
+                                        <div className="ml-2">
+                                            <div style={{fontSize: 12}}>Имя</div>
+                                            <div style={{fontSize: 12, color: "gray"}}>текст комменsdтаряи</div>
+                                        </div>
                                     </div>
-                                    <div style={{cursor: "pointer"}} onClick={() => deletePost(item._id)} className="ml-2">
-                                        <DeleteSvgIcon/>
+                                )}
+                                {showWriteComments && (
+                                    <div className="mt-3 d-flex mb-2">
+                                        <div style={{marginLeft: -15}} className="col-10">
+                                            <input
+                                                className="col-12"
+                                                name="comments"
+                                                // value={form.comments.text}
+                                                type="text"
+                                                onChange={changeCommentHandler}
+                                            />
+                                        </div>
+                                        <div style={{fontSize: 12}} className="col-2 btn btn-dark">
+                                            Отправить
+                                        </div>
                                     </div>
-                                </div>
+                                )}
                             </div>
                         </div>
                     ))}
