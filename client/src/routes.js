@@ -9,6 +9,7 @@ import {useAuth} from "./utils/auth.hook";
 import News from "./pages/Main/News/News";
 import PostsLine from "./pages/Main/PostsLine/PostsLine";
 import Profile from "./pages/Main/Profile/Profile";
+import Post from "./pages/Main/Post/Post";
 
 const useRoutes = isAuth =>{
     const {logout} = useAuth()
@@ -40,6 +41,7 @@ const useRoutes = isAuth =>{
                             <Route path="/community" component={Community}/>
                             <Route path="/profile" component={Profile}/>
                             <Route path="/news" component={News}/>
+                            <Route path="/post/:id" component={Post}/>
                             <Route exact path="/admin" component={Admin}/>
                             {/*<Redirect to="/"/>*/}
                         </Switch>

@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 const Profile = () =>{
     const {token, refresh, userId} = useAuth()
     const [form, setForm] = useState({})
+    const [showAvatar, setShowAvatar] = useState(false)
 
     const getProfile = () =>{
         Api.post("api/profile/", {userId: userId?._id}).then((res) => {
@@ -13,7 +14,6 @@ const Profile = () =>{
         })
     }
 
-    ////допилить на бэке
     const registerHandler = async () =>{
         try {
             await Api.post("api/profile/update", {...form}).then((res) => {
@@ -40,6 +40,13 @@ const Profile = () =>{
                 src={form.avatar}
                 alt={""}
             />
+            <div
+                className="btn btn-primary"
+                onClick={() => setShowAvatar(s => !s)}
+                style={{marginTop: 10}}
+            >
+                {showAvatar ? "Оставить аватар" : "Изменить аватар"}
+            </div>
             <input
                 placeholder="Имя"
                 style={{marginTop: 10}}
@@ -51,7 +58,7 @@ const Profile = () =>{
             <input
                 placeholder="Фамилия"
                 style={{marginTop: 10}}
-                value={form.des}
+                value={form.lastName}
                 name="lastName"
                 type="text"
                 onChange={changeHandler}
@@ -60,6 +67,7 @@ const Profile = () =>{
                 placeholder="email"
                 style={{marginTop: 10}}
                 value={form.email}
+                readOnly={true}
                 name="email"
                 type="text"
                 onChange={changeHandler}
@@ -72,6 +80,16 @@ const Profile = () =>{
                 type="text"
                 onChange={changeHandler}
             />
+            {showAvatar && (
+                <input
+                    placeholder="Ссылка на аватар"
+                    style={{marginTop: 10}}
+                    value={form.avatar}
+                    name="avatar"
+                    type="text"
+                    onChange={changeHandler}
+                />
+            )}
             <div onClick={registerHandler} className="btn btn-primary mt-4">
                 Отправить
             </div>

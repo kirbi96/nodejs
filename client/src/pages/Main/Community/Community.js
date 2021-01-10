@@ -13,7 +13,7 @@ const Community = () =>{
         name: "",
         des: "",
         tag: "",
-        avatar: "https://326605.selcdn.ru/03005/iblock/340/logotip-KAI.jpg",
+        avatar: "",
     })
 
     const getCommunity = () =>{
@@ -50,7 +50,7 @@ const Community = () =>{
                 setForm({
                     name: "",
                     des: "",
-                    avatar: "https://326605.selcdn.ru/03005/iblock/340/logotip-KAI.jpg",
+                    avatar: "",
                 })
                 getCommunity()
                 setNewPublic(false)
@@ -70,7 +70,7 @@ const Community = () =>{
     },[])
 
     return(
-        <div>
+        <div className="pb-5">
             {newPublic ? (
                 <div className="d-flex col-12 flex-column">
                     <div onClick={() => setNewPublic( s => !s)} className="col-4 btn btn-primary">
@@ -92,6 +92,14 @@ const Community = () =>{
                         type="text"
                         onChange={changeHandler}
                     />
+                    <input
+                        placeholder="Ссылка на баннер"
+                        style={{marginTop: 10}}
+                        value={form.avatar}
+                        name="avatar"
+                        type="text"
+                        onChange={changeHandler}
+                    />
                     <div style={{marginTop: 10}}>
                         <Select
                             closeMenuOnSelect={false}
@@ -102,15 +110,6 @@ const Community = () =>{
                             options={tags}
                         />
                     </div>
-
-                    {/*<input*/}
-                    {/*    placeholder="Тэг"*/}
-                    {/*    style={{marginTop: 10}}*/}
-                    {/*    value={form.tag}*/}
-                    {/*    name="tag"*/}
-                    {/*    type="text"*/}
-                    {/*    onChange={changeHandler}*/}
-                    {/*/>*/}
                     <button
                         onClick={registerHandler}
                         className="btn btn-primary mt-3"
@@ -121,7 +120,6 @@ const Community = () =>{
 
             ) : (
                 <div onClick={() => setNewPublic( s => !s)} className="btn btn-primary">
-                    {/*{newPublic ? "Закрыть админ панель" : "Создать сообщество"}*/}
                     Создать сообщество
                 </div>
             )}

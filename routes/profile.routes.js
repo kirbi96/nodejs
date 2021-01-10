@@ -25,13 +25,15 @@ router.post(
     "/update",
     async (req, res) =>{
         try {
-            const {_id, avatar, name, lastName, group, email} = req.body
+            const {_id, avatar, name, lastName, group} = req.body
             User.findById(_id, async (err, user) => {
                 if(err){
                     console.log(err)
                 } else {
-                    user = {...user, _id, avatar, name, lastName, group, email}
-                    //допилить
+                    user.name = name
+                    user.avatar = avatar
+                    user.lastName = lastName
+                    user.group = group
                     await user.save()
                     res.status(201).json(user)
                 }
