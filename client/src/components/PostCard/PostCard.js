@@ -101,92 +101,94 @@ const PostCard = ({isMyLine}) =>{
 
     return(
         <div className="col-12">
-            <div>
-                {newPost ? (
-                    <div className="d-flex col-12 flex-column">
-                        <div onClick={() => setNewPost( s => !s)} className="btn col-3 btn-primary mb-3">
-                            Закрыть создание
-                        </div>
-                        {isUpdate ? (
-                            <>
-                                <input
-                                    name="message"
-                                    value={form.message}
-                                    type="text"
-                                    onChange={changeHandler}
-                                />
-                                <button
-                                    onClick={registerUpdate}
-                                    className="btn btn-primary mt-3"
-                                >
-                                    Отредактировать
-                                </button>
-                            </>
-                        ):(
-                            <>
-                                <input
-                                    placeholder="Название"
-                                    value={form.name}
-                                    name="name"
-                                    type="text"
-                                    onChange={changeHandler}
-                                />
-                                <textarea
-                                    style={{marginTop: 10}}
-                                    placeholder="Что нового"
-                                    value={form.message}
-                                    name="message"
-                                    onChange={changeHandler}
-                                />
-                                <input
-                                    style={{marginTop: 10}}
-                                    placeholder="Аватар"
-                                    value={form.avatar}
-                                    name="avatar"
-                                    type="text"
-                                    onChange={changeHandler}
-                                />
-                                <input
-                                    style={{marginTop: 10}}
-                                    placeholder="Ссылка на баннер"
-                                    value={form.image}
-                                    name="image"
-                                    type="text"
-                                    onChange={changeHandler}
-                                />
-                                <input
-                                    style={{marginTop: 10}}
-                                    placeholder="Ссылка на видео"
-                                    value={form.video}
-                                    name="video"
-                                    type="text"
-                                    onChange={changeHandler}
-                                />
-                                <div style={{marginTop: 10}}>
-                                    <Select
-                                        onChange={handleInputChange}
-                                        options={tags}
+            {!isMyLine &&(
+                <div>
+                    {newPost ? (
+                        <div className="d-flex col-12 flex-column">
+                            <div onClick={() => setNewPost( s => !s)} className="btn col-3 btn-primary mb-3">
+                                Закрыть создание
+                            </div>
+                            {isUpdate ? (
+                                <>
+                                    <input
+                                        name="message"
+                                        value={form.message}
+                                        type="text"
+                                        onChange={changeHandler}
                                     />
-                                </div>
-                                <button
-                                    onClick={registerHandler}
-                                    className="btn btn-primary mt-3"
-                                >
-                                    Создать пост
-                                </button>
-                            </>
-                        )}
+                                    <button
+                                        onClick={registerUpdate}
+                                        className="btn btn-primary mt-3"
+                                    >
+                                        Отредактировать
+                                    </button>
+                                </>
+                            ):(
+                                <>
+                                    <input
+                                        placeholder="Название"
+                                        value={form.name}
+                                        name="name"
+                                        type="text"
+                                        onChange={changeHandler}
+                                    />
+                                    <textarea
+                                        style={{marginTop: 10}}
+                                        placeholder="Что нового"
+                                        value={form.message}
+                                        name="message"
+                                        onChange={changeHandler}
+                                    />
+                                    <input
+                                        style={{marginTop: 10}}
+                                        placeholder="Аватар"
+                                        value={form.avatar}
+                                        name="avatar"
+                                        type="text"
+                                        onChange={changeHandler}
+                                    />
+                                    <input
+                                        style={{marginTop: 10}}
+                                        placeholder="Ссылка на баннер"
+                                        value={form.image}
+                                        name="image"
+                                        type="text"
+                                        onChange={changeHandler}
+                                    />
+                                    <input
+                                        style={{marginTop: 10}}
+                                        placeholder="Ссылка на видео"
+                                        value={form.video}
+                                        name="video"
+                                        type="text"
+                                        onChange={changeHandler}
+                                    />
+                                    <div style={{marginTop: 10}}>
+                                        <Select
+                                            onChange={handleInputChange}
+                                            options={tags}
+                                        />
+                                    </div>
+                                    <button
+                                        onClick={registerHandler}
+                                        className="btn btn-primary mt-3"
+                                    >
+                                        Создать пост
+                                    </button>
+                                </>
+                            )}
 
-                    </div>
-                ):(
-                    <div className="d-flex col-3">
-                        <div onClick={() => setNewPost( s => !s)} className="btn btn-primary">
-                            Создать пост
                         </div>
-                    </div>
-                )}
+                    ):(
+                        <div className="d-flex col-3">
+                            <div onClick={() => setNewPost( s => !s)} className="btn btn-primary">
+                                Создать пост
+                            </div>
+                        </div>
+                    )}
 
-            </div>
+                </div>
+            )}
 
             <div className="d-flex mt-3">
                 <div className="d-flex col-12 flex-column">

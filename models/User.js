@@ -5,6 +5,7 @@ const schema = new Schema ({
     password: {type: String, required: true},
     avatar: {type: String},
     name: {type: String},
+    status: {type: Number},
     lastName: {type: String},
     group: {type: String},
     communityId: {type: [String]},

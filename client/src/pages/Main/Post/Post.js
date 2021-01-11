@@ -15,8 +15,6 @@ const Post = ({match, history}) =>{
         commentText: ""
     })
 
-    console.log(post)
-
     const getPost = () =>{
         Api.get(`api/post/${postId}`).then((res) => {
             setPost(res.data)

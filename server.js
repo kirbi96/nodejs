@@ -17,6 +17,7 @@ app.use("/api/community", require("./routes/community.routes"))
 
 //admin
 app.use("/api/tag", require("./routes/tag.routes"))
+app.use("/api/admin", require("./routes/admin.routes"))
 
 const start = async () =>{
     try {

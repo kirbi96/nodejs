@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {Api} from "../../../utils/api.hook";
+import DeleteSvgIcon from "../../../assets/icons/DeleteSvgIcon";
 
 
 const News = () => {
@@ -16,6 +17,17 @@ const News = () => {
             setNews(res.data)
         })
     }
+
+    const deleteNews = async id =>{
+        try {
+            await Api.get(`api/news/delete/${id}`, ).then((res) => {
+                getNews()
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     const registerHandler = async () =>{
         try {
             await Api.post("api/news/create", {...form}).then((res) => {
@@ -94,6 +106,11 @@ const News = () => {
                             style={{width: "100%", height: 300, marginTop: 30, borderRadius: 20}}
                             src={item.banner}
                         />
+                        <div className="mt-3 d-flex justify-content-end">
+                            <div style={{cursor: "pointer"}} onClick={() => deleteNews(item._id)} className="ml-2">
+                                <DeleteSvgIcon/>
+                            </div>
+                        </div>
                     </div>
                 </div>
             ))}
