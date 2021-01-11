@@ -71,57 +71,61 @@ const Community = () =>{
 
     return(
         <div className="pb-5">
-            {newPublic ? (
-                <div className="d-flex col-12 flex-column">
-                    <div onClick={() => setNewPublic( s => !s)} className="col-4 btn btn-primary">
-                        Закрыть админ панель
-                    </div>
-                    <input
-                        placeholder="Название"
-                        style={{marginTop: 10}}
-                        value={form.name}
-                        name="name"
-                        type="text"
-                        onChange={changeHandler}
-                    />
-                    <input
-                        placeholder="Описание"
-                        style={{marginTop: 10}}
-                        value={form.des}
-                        name="des"
-                        type="text"
-                        onChange={changeHandler}
-                    />
-                    <input
-                        placeholder="Ссылка на баннер"
-                        style={{marginTop: 10}}
-                        value={form.avatar}
-                        name="avatar"
-                        type="text"
-                        onChange={changeHandler}
-                    />
-                    <div style={{marginTop: 10}}>
-                        <Select
-                            closeMenuOnSelect={false}
-                            onSelectResetsInput={false}
-                            onBlurResetsInput={false}
-                            onChange={handleInputChange}
-                            // isMulti при желании множественный выбор
-                            options={tags}
-                        />
-                    </div>
-                    <button
-                        onClick={registerHandler}
-                        className="btn btn-primary mt-3"
-                    >
-                        Создать сообщество
-                    </button>
-                </div>
+            {userId?.status === 1 &&(
+                <>
+                    {newPublic ? (
+                        <div className="d-flex col-12 flex-column">
+                            <div onClick={() => setNewPublic( s => !s)} className="col-4 btn btn-primary">
+                                Закрыть админ панель
+                            </div>
+                            <input
+                                placeholder="Название"
+                                style={{marginTop: 10}}
+                                value={form.name}
+                                name="name"
+                                type="text"
+                                onChange={changeHandler}
+                            />
+                            <input
+                                placeholder="Описание"
+                                style={{marginTop: 10}}
+                                value={form.des}
+                                name="des"
+                                type="text"
+                                onChange={changeHandler}
+                            />
+                            <input
+                                placeholder="Ссылка на баннер"
+                                style={{marginTop: 10}}
+                                value={form.avatar}
+                                name="avatar"
+                                type="text"
+                                onChange={changeHandler}
+                            />
+                            <div style={{marginTop: 10}}>
+                                <Select
+                                    closeMenuOnSelect={false}
+                                    onSelectResetsInput={false}
+                                    onBlurResetsInput={false}
+                                    onChange={handleInputChange}
+                                    // isMulti при желании множественный выбор
+                                    options={tags}
+                                />
+                            </div>
+                            <button
+                                onClick={registerHandler}
+                                className="btn btn-primary mt-3"
+                            >
+                                Создать сообщество
+                            </button>
+                        </div>
 
-            ) : (
-                <div onClick={() => setNewPublic( s => !s)} className="btn btn-primary">
-                    Создать сообщество
-                </div>
+                    ) : (
+                        <div onClick={() => setNewPublic( s => !s)} className="btn btn-primary">
+                            Создать сообщество
+                        </div>
+                    )}
+                </>
             )}
             {community && community.map( (community, index) => (
                 <div key={index} className="col-12 mt-4" style={{border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: 10, padding: 20}}>

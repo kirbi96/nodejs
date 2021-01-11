@@ -11,7 +11,8 @@ const schema = new Schema ({
     commentsArr: [{
         author: String,
         avatar: String,
-        commentText: String
+        date: Date,
+        commentText: String,
     }]
 })
 

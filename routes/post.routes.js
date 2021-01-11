@@ -128,11 +128,11 @@ router.post(
                 })
             }
 
-            const {postId, commentText, avatar, author} = req.body
+            const {postId, commentText, avatar, author, date} = req.body
 
             Post.findByIdAndUpdate(postId, {
                 $push: {
-                    commentsArr: {commentText, avatar, author}
+                    commentsArr: {commentText, avatar, author, date}
                 },
             }, {
                 new: true

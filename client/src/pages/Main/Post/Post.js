@@ -2,9 +2,11 @@ import DeleteSvgIcon from "../../../assets/icons/DeleteSvgIcon";
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../../context/AuthContext";
 import {Api} from "../../../utils/api.hook";
+import {useAuth} from "../../../utils/auth.hook";
 
 const Post = ({match, history}) =>{
     const auth = useContext(AuthContext)
+    const {userId} = useAuth()
     const postId = match.params.id
     const [post, setPost] = useState({})
     const [showComments, setShowComments] = useState(true)
@@ -12,7 +14,8 @@ const Post = ({match, history}) =>{
     const [commentForm, setCommentForm] = useState({
         author: auth?.userId?.email,
         avatar: auth?.userId?.avatar || "https://townsquare.media/site/442/files/2020/01/avatar-10-year.jpg?w=980&q=75",
-        commentText: ""
+        commentText: "",
+        date: new Date()
     })
 
     const getPost = () =>{
@@ -20,7 +23,7 @@ const Post = ({match, history}) =>{
             setPost(res.data)
         })
     }
-
+    console.log(post)
     const deletePost = async id =>{
         try {
             await Api.get(`api/post/delete/${id}`, ).then((res) => {
@@ -98,11 +101,13 @@ const Post = ({match, history}) =>{
                                             {post.tag}
                                         </div>
                                     </div>
-                                    <div style={{marginLeft: "auto", marginRight: 0}} className="d-flex">
-                                        <div style={{cursor: "pointer"}} onClick={() => deletePost(post._id)} className="ml-2">
-                                            <DeleteSvgIcon/>
+                                    {userId?.status === 1 && (
+                                        <div style={{marginLeft: "auto", marginRight: 0}} className="d-flex">
+                                            <div style={{cursor: "pointer"}} onClick={() => deletePost(post._id)} className="ml-2">
+                                                <DeleteSvgIcon/>
+                                            </div>
                                         </div>
-                                    </div>
+                                    )}
                                 </div>
                             </div>
                             <div className="mt-2">
@@ -142,16 +147,19 @@ const Post = ({match, history}) =>{
                                         {post.commentsArr && post.commentsArr.length > 0 ? (
                                             <>
                                                 {post.commentsArr.map( comm => (
-                                                    <div className="mt-3 d-flex mb-3" key={comm._id}>
-                                                        <img
-                                                            style={{width: 35, height: 35, borderRadius: 20}}
-                                                            alt=""
-                                                            src={comm.avatar}
-                                                        />
-                                                        <div className="ml-2">
-                                                            <div style={{fontSize: 12}}>{comm.author}</div>
-                                                            <div style={{fontSize: 12, color: "gray"}}>{comm.commentText}</div>
+                                                    <div className="mt-3 d-flex justify-content-between mb-3" key={comm._id}>
+                                                        <div className="d-flex">
+                                                            <img
+                                                                style={{width: 35, height: 35, borderRadius: 20}}
+                                                                alt=""
+                                                                src={comm.avatar}
+                                                            />
+                                                            <div className="ml-2">
+                                                                <div style={{fontSize: 12}}>{comm.author}</div>
+                                                                <div style={{fontSize: 12, color: "gray"}}>{comm.commentText}</div>
+                                                            </div>
                                                         </div>
+                                                        <div style={{fontSize: 11, color: "gray"}}>{comm?.date?.substring(11,16)} {comm?.date?.substring(0,10)}</div>
                                                     </div>
                                                 ))}
 

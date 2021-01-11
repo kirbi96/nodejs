@@ -101,7 +101,7 @@ const PostCard = ({isMyLine}) =>{
 
     return(
         <div className="col-12">
-            {!isMyLine &&(
+            {!isMyLine && userId?.status === 1 && (
                 <div>
                     {newPost ? (
                         <div className="d-flex col-12 flex-column">
@@ -229,17 +229,19 @@ const PostCard = ({isMyLine}) =>{
                                                 {item.tag}
                                             </div>
                                         </div>
-                                        <div style={{marginLeft: "auto", marginRight: 0}} className="d-flex">
-                                            <div style={{cursor: "pointer"}} onClick={() => {
-                                                updatePost(item._id, item.message)
-                                                setNewPost(s => !s)
-                                            }} >
-                                                <EditSvgIcon/>
+                                        {userId?.status === 1 && (
+                                            <div style={{marginLeft: "auto", marginRight: 0}} className="d-flex">
+                                                <div style={{cursor: "pointer"}} onClick={() => {
+                                                    updatePost(item._id, item.message)
+                                                    setNewPost(s => !s)
+                                                }} >
+                                                    <EditSvgIcon/>
+                                                </div>
+                                                <div style={{cursor: "pointer"}} onClick={() => deletePost(item._id)} className="ml-2">
+                                                    <DeleteSvgIcon/>
+                                                </div>
                                             </div>
-                                            <div style={{cursor: "pointer"}} onClick={() => deletePost(item._id)} className="ml-2">
-                                                <DeleteSvgIcon/>
-                                            </div>
-                                        </div>
+                                        )}
                                     </div>
                                 </div>
                             )}
@@ -278,17 +280,19 @@ const PostCard = ({isMyLine}) =>{
                                                 {item.tag}
                                             </div>
                                         </div>
-                                        <div style={{marginLeft: "auto", marginRight: 0}} className="d-flex">
-                                            <div style={{cursor: "pointer"}} onClick={() => {
-                                                updatePost(item._id, item.message)
-                                                setNewPost(s => !s)
-                                            }} >
-                                                <EditSvgIcon/>
+                                        {userId?.status === 1 && (
+                                            <div style={{marginLeft: "auto", marginRight: 0}} className="d-flex">
+                                                <div style={{cursor: "pointer"}} onClick={() => {
+                                                    updatePost(item._id, item.message)
+                                                    setNewPost(s => !s)
+                                                }} >
+                                                    <EditSvgIcon/>
+                                                </div>
+                                                <div style={{cursor: "pointer"}} onClick={() => deletePost(item._id)} className="ml-2">
+                                                    <DeleteSvgIcon/>
+                                                </div>
                                             </div>
-                                            <div style={{cursor: "pointer"}} onClick={() => deletePost(item._id)} className="ml-2">
-                                                <DeleteSvgIcon/>
-                                            </div>
-                                        </div>
+                                        )}
                                     </div>
                                 </div>
                             )}
